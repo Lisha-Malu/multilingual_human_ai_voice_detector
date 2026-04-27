@@ -1,7 +1,7 @@
 streamlit
 tensorflow
 librosa
-opencv-python
+opencv-python-headless
 matplotlib
 openai-whisper
 numpy
