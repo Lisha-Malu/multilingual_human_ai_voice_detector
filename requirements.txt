@@ -1,0 +1,7 @@
+streamlit
+tensorflow
+librosa
+opencv-python
+matplotlib
+openai-whisper
+numpy
