@@ -15,14 +15,16 @@ st.set_page_config(layout="centered")
 if "audio_file" not in st.session_state:
     st.session_state.audio_file = None
 
-# LOAD MODELS
-@st.cache_resource
-def load_models():
-    model = load_model("model_v2.keras")
-    whisper_model = whisper.load_model("tiny")  # use base if strong system
-    return model, whisper_model
+# Lazy load Whisper only when needed
+if "whisper_model" not in st.session_state:
+    st.session_state.whisper_model = None
 
-model, whisper_model = load_models()
+# LOAD KERAS MODEL (cached)
+@st.cache_resource(show_spinner="Loading AI model...")
+def load_keras_model():
+    return load_model("model_v2.keras")
+
+model = load_keras_model()
 
 # LANGUAGE MAP
 whisper_lang_map = {
@@ -100,9 +102,13 @@ audio, sr = librosa.load(file_name, sr=None)
 # ONLY resample (same as training)
 audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
 
-# WHISPER
+# WHISPER (lazy load)
+if st.session_state.whisper_model is None:
+    with st.spinner("Loading Whisper model..."):
+        st.session_state.whisper_model = whisper.load_model("tiny")
+
 try:
-    result = whisper_model.transcribe(file_name, fp16=False)
+    result = st.session_state.whisper_model.transcribe(file_name, fp16=False)
     raw_lang = result["language"]
     text = result["text"]
     language = whisper_lang_map.get(raw_lang, "unknown")
