@@ -20,6 +20,9 @@ Built using:
 * 🔄 Re-record / delete audio functionality
 * ⚡ Fast and optimized for real-time inference
 
+#Deployed project link 
+https://multilingualhumanaivoicedetector-e9qchqf7nujfve27tppu8e.streamlit.app/
+
 
 # 🧠 Project Architecture
 
