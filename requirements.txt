@@ -1,4 +1,5 @@
 streamlit
+streamlit-audiorecorder
 tensorflow
 librosa
 opencv-python-headless
